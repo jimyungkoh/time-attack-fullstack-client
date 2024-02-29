@@ -7,7 +7,6 @@ import InputForm from "@/components/InputForm";
 import TextArea from "@/components/TextArea";
 import { useAuth } from "@/contexts/auth.context";
 import { showError, showSuccess, showWarn } from "@/utils/toastify.emitters";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ChangeEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react";
 
@@ -22,11 +21,6 @@ export default function DealsEditPage({ params: { dealId } }: { params: { dealId
     const [fileName, setFileName] = useState("");
     
     const fileInput = useRef<HTMLInputElement>(null);
-
-    const { data, isFetching     } = useQuery({
-        queryKey: `${dealId}`,
-        queryFn: api.deals.getDealById(dealId)
-    })
 
     useEffect(() => {
         if (!isAuthInitialized || isLoggedIn) {
