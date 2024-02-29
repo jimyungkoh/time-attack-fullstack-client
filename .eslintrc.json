@@ -1,3 +1,161 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jasmine": true,
+    "jest": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "eslint-config-prettier",
+    "next/core-web-vitals"
+  ],
+  "plugins": ["@typescript-eslint"],
+  "settings": {
+    "react": {
+      // eslint-plugin-react에게 사용할 React 버전을 자동으로 감지하도록 알립니다.
+      "version": "detect"
+    },
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "typescript": {
+        "project": "."
+      }
+    }
+  },
+  "rules": {
+    "arrow-body-style": "off", // 화살표 함수 본문 스타일을 강제하지 않습니다.
+    "no-plusplus": "off", // ++ 연산자 사용을 금지하지 않습니다.
+    "react/display-name": "off", // React 컴포넌트의 displayName을 정의하도록 강제하지 않습니다.
+    "react/function-component-definition": [
+      "warn",
+      { "namedComponents": "arrow-function" } // 명명된 컴포넌트는 화살표 함수를 사용하도록 경고합니다.
+    ],
+    "react/jsx-one-expression-per-line": "off", // 한 줄에 JSX 표현식 하나만을 강제하지 않습니다.
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] } // JSX를 포함한 파일에 대해 특정 확장자만을 허용합니다.
+    ],
+    "react/jsx-props-no-spreading": "off", // JSX 속성의 스프레드를 금지하지 않습니다.
+    "react/require-default-props": "off", // defaultProps 정의를 강제하지 않습니다.
+    "react/jsx-wrap-multilines": "off", // 여러 줄 JSX를 괄호로 감싸도록 강제하지 않습니다.
+    "react/react-in-jsx-scope": "off", // JSX 사용 시 React를 범위에 포함시키도록 강제하지 않습니다.
+    "react/prop-types": "off", // propTypes를 사용하여 props 검증을 강제하지 않습니다.
+    "import/prefer-default-export": "off", // 단일 내보내기가 있는 경우 default export를 선호하도록 강제하지 않습니다.
+    "import/no-unresolved": "off", // import 경로가 해결되지 않는 경우를 금지하지 않습니다.
+    "no-restricted-exports": [
+      "error",
+      { "restrictDefaultExports": { "defaultFrom": false } } // 특정 내보내기를 제한합니다.
+    ],
+    "import/order": [
+      "error",
+      {
+        "pathGroups": [
+          {
+            "pattern": "@/lib/**", // 외부 라이브러리
+            "group": "external"
+          },
+          {
+            "pattern": "{types/*,@/types*,./types}", // 타입 정의 파일
+            "group": "type"
+          },
+          {
+            "pattern": "{hooks,@/hooks/**/*,./hooks/**,./use**,../use**,../../use**,../../../use**,,../../hooks/**,./_hooks/**,../../../_hooks/**}", // 훅 파일
+            "group": "internal"
+          },
+          {
+            "pattern": "{utils/**/*,./utils,../utils,../../utils,../../../utils}", // 유틸리티 파일
+            "group": "type"
+          },
+          {
+            "pattern": "{@/constants/*,./constants}", // 상수 파일
+            "group": "type"
+          },
+          {
+            "pattern": "{states/**/*,./states*,./**/states*,../states*,../../states*,../../../states*,,../../../../states*,**/**/**/states*}", // 상태 관리 파일
+            "group": "type"
+          },
+          {
+            "pattern": "@/services/**", // 서비스 파일
+            "group": "type"
+          },
+          {
+            "pattern": "{./helpers,./data,./config,./defaults,../../../defaults}", // 헬퍼 및 설정 파일
+            "group": "type"
+          },
+          {
+            "pattern": "{components,components/_common/**,@/components,@/components/**,svgs,@/assets/**/*,@/app/**,routes/**,public/**}", // 컴포넌트 및 에셋 파일
+            "group": "index"
+          },
+          {
+            "pattern": "{styles,./*.scss,../*.scss,../*.module.scss}", // 스타일 파일
+            "group": "index"
+          }
+        ],
+        "groups": [
+          ["external", "builtin"],
+          ["type", "internal", "object"],
+          ["parent", "sibling", "index"]
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "import/no-anonymous-default-export": "off", // 이름 없는 default export를 금지하지 않습니다.
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.tsx",
+          "**/*.stories.*",
+          "**/.storybook/**/*.*",
+          "setupTests.ts"
+        ],
+        "peerDependencies": true
+      }
+    ], // 개발 의존성에서만 사용되어야 하는 import를 금지합니다.
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ], // 특정 파일 확장자에 대한 import를 금지합니다.
+    "no-param-reassign": ["error", { "props": false }], // 함수 매개변수의 재할당을 금지합니다.
+    "no-unused-expressions": ["warn"], // 사용되지 않는 표현식에 대해 경고합니다.
+    "no-unused-vars": "off", // 사용되지 않는 변수를 금지하지 않습니다.
+    "no-shadow": "off", // 변수 섀도잉(동일한 이름의 변수 선언)을 금지하지 않습니다.
+    "@typescript-eslint/no-shadow": ["error"], // TypeScript에서 변수 섀도잉을 금지합니다.
+    "@typescript-eslint/camelcase": "off", // camelCase 네이밍 규칙을 강제하지 않습니다.
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_" } // _로 시작하는 미사용 매개변수에 대해 경고하지 않습니다.
+    ],
+    "prefer-destructuring": ["error", { "object": true, "array": false }], // 객체 구조 분해를 선호하도록 강제합니다.
+    "lines-between-class-members": "off", // 클래스 멤버 사이에 빈 줄을 넣도록 강제하지 않습니다.
+    "jsx-a11y/click-events-have-key-events": "off", // 클릭 이벤트에 키보드 이벤트를 강제하지 않습니다.
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "labelComponents": ["label"],
+        "labelAttributes": ["htmlFor"],
+        "controlComponents": ["input"]
+      }
+    ]
+  },
+  "globals": {"navigation": "readonly", "globalThis": false, "NodeJS": true }
 }
