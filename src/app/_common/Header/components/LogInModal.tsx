@@ -25,6 +25,7 @@ function LogInModal() {
     if (!password.trim()) return showError("비밀번호를 입력해 주세요");
 
     try {
+      await logIn({ email, password });
       auth.setIsLoggedIn(true);
       router.push("/");
       toast.success("로그인에 성공했습니다.");
