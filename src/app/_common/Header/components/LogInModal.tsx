@@ -25,13 +25,11 @@ function LogInModal() {
     if (!password.trim()) return showError("비밀번호를 입력해 주세요");
 
     try {
-      console.log(await logIn({ email, password }));
       auth.setIsLoggedIn(true);
       router.push("/");
       toast.success("로그인에 성공했습니다.");
       modal.close();
     } catch (e: any) {
-      console.log(e);
       showError(e.message);
     }
   };

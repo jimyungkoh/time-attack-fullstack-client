@@ -5,7 +5,6 @@ export default async function Home(params: any) {
   const sortTypeCheck = params.searchParams.sort in ["date", "likes", "views"]; 
   const sort = sortTypeCheck ? params.searchParams.sort : "date";
   const deals = await api.deals.findDeals();
-  console.log(sort)
   return (
     <article className="flex justify-center">
       <section className="md:px-16 md:w-full lg:w-8/12">

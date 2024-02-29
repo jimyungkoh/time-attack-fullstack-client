@@ -1,16 +1,17 @@
 'use client'
 
+import api from "@/api";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import InputForm from "@/components/InputForm";
 import TextArea from "@/components/TextArea";
 import { useAuth } from "@/contexts/auth.context";
-import convertToKRW from "@/utils/money-formatter";
 import { showError, showSuccess, showWarn } from "@/utils/toastify.emitters";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ChangeEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react";
 
-export default function DealsCreatePage() {
+export default function DealsEditPage({ params: { dealId } }: { params: { dealId: string } }) {
     const router = useRouter();
     const { isLoggedIn, isAuthInitialized } = useAuth();
     
@@ -22,8 +23,15 @@ export default function DealsCreatePage() {
     
     const fileInput = useRef<HTMLInputElement>(null);
 
+    const { data, isFetching     } = useQuery({
+        queryKey: `${dealId}`,
+        queryFn: api.deals.getDealById(dealId)
+    })
+
     useEffect(() => {
-        if (!isAuthInitialized || isLoggedIn) return;
+        if (!isAuthInitialized || isLoggedIn) {
+            return;
+        }
         
         router.replace("/");
         showWarn("로그인 후 이용해주세요");
@@ -39,7 +47,8 @@ export default function DealsCreatePage() {
         const file = fileInput.current?.files?.[0];
 
         if (!file) return showWarn("파일을 선택해주세요!");
-
+        else if (price <= 0) return showWarn("1원 이상만 입력 가능합니다.");
+        
         const formData = new FormData();
         formData.append("file", file);
         formData.append("title",title);
@@ -48,7 +57,7 @@ export default function DealsCreatePage() {
         formData.append("location", location);
         
         try {
-            // await api.deals.editDeal(formData);
+            await api.deals.createDeal(formData);
             router.push("/");
             showSuccess("판매 작성이 완료되었어요!");
         } catch (e:any) {
@@ -84,14 +93,12 @@ export default function DealsCreatePage() {
             />
             <Input
                 label="가격"
-                type="text"
+                type="number"
                 name="price"
                 placeholder="₩ 가격을 입력해주세요."
-                onChange={(e) => {
-                    if (!isNaN(Number(e.target.value))) {
-                        setPrice(parseInt(e.target.value))
-                        e.target.value = convertToKRW(Number(e.target.value))
-                    }
+                onChange={(e) =>
+                {
+                    setPrice(parseInt(e.target.value));
                 }}
             />
             <TextArea
