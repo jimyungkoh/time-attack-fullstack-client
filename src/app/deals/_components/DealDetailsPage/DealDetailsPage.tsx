@@ -18,6 +18,7 @@ export default function DealDetailsPage({ deal }: { deal: TDeal }) {
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 20vw, 20vw"
             quality={100}
             className="object-cover"
+            unoptimized
           />
         </div>
         <div className="pb-8 flex flex-col justify-between">
