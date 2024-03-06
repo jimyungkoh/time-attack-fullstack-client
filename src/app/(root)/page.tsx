@@ -1,6 +1,8 @@
 import api from "@/api";
 import ResponsiveGridCards from "@/components/ResponsiveGridCards";
 
+export const revalidate = 5
+
 export default async function Home(params: any) {
   const sortTypeCheck = params.searchParams.sort in ["date", "likes", "views"]; 
   const sort = sortTypeCheck ? params.searchParams.sort : "date";
