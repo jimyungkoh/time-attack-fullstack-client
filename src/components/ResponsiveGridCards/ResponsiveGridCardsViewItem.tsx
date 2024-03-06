@@ -9,7 +9,7 @@ import { FaHeart, FaSearch } from "react-icons/fa";
 export default function ResponsiveGridCardsViewItem({ deal }: { deal: TDeal }) {
   const baseImgUrl = process.env.NEXT_PUBLIC_IMG_BASE_URL || ""
   
-  const imgUrl = join(baseImgUrl, `${deal.imgUrl}`)
+  const imgUrl = join(baseImgUrl, "/", `${deal.imgUrl}`, )
 
   return (
     <Link href={`/deals/${deal.id}`}
